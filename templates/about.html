@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block title %}About{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <div>
+        <p class="eyebrow">About</p>
+        <h1>News Intelligence Dashboard</h1>
+    </div>
+</div>
+
+<div class="about-card">
+    <p>This dashboard collects public, no-auth news stories from Hacker News and Google News, then normalizes, categorizes, scores, and analyzes them using lightweight Python intelligence services.</p>
+    <p>It is designed to help users monitor trending stories, sentiment, topic frequency, and publication patterns without requiring paid APIs or account setup.</p>
+    <ul>
+        <li>Dashboard overview with KPIs</li>
+        <li>Search and combined filters</li>
+        <li>Trending and topic intelligence</li>
+        <li>Analytics powered by Chart.js</li>
+        <li>Bookmarking for saved story tracking</li>
+    </ul>
+</div>
+{% endblock %}

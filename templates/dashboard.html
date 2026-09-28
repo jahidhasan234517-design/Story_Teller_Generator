@@ -1,0 +1,115 @@
+{% extends 'base.html' %}
+
+{% block title %}Dashboard | News Intelligence{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <div>
+        <p class="eyebrow">Executive overview</p>
+        <h1>Dashboard</h1>
+    </div>
+</div>
+
+<div class="stats-grid">
+    <div class="stats-card">
+        <span>Total Articles</span>
+        <strong>{{ stats.total_articles }}</strong>
+    </div>
+    <div class="stats-card">
+        <span>Articles Today</span>
+        <strong>{{ stats.articles_today }}</strong>
+    </div>
+    <div class="stats-card">
+        <span>Trending Stories</span>
+        <strong>{{ stats.trending }}</strong>
+    </div>
+    <div class="stats-card">
+        <span>Saved Articles</span>
+        <strong>{{ stats.saved_articles }}</strong>
+    </div>
+    <div class="stats-card">
+        <span>Positive Articles</span>
+        <strong>{{ stats.positive }}</strong>
+    </div>
+    <div class="stats-card">
+        <span>Negative Articles</span>
+        <strong>{{ stats.negative }}</strong>
+    </div>
+    <div class="stats-card">
+        <span>Neutral Articles</span>
+        <strong>{{ stats.neutral }}</strong>
+    </div>
+</div>
+
+<div class="content-grid two-col">
+    <section class="panel">
+        <div class="panel-header">
+            <h2>Dashboard Trending Score</h2>
+        </div>
+        <div class="list-group rounded-3">
+            {% for story in trending %}
+                <div class="list-group-item">
+                    <div class="d-flex justify-content-between align-items-center gap-3">
+                        <div>
+                            <h6>{{ story.title }}</h6>
+                            <small>{{ story.source }} • {{ story.category }}</small>
+                        </div>
+                        <span class="badge text-bg-primary">{{ story.popularity_score|floatformat:1 }}</span>
+                    </div>
+                </div>
+            {% empty %}
+                <div class="list-group-item text-muted">No trending stories available yet.</div>
+            {% endfor %}
+        </div>
+    </section>
+
+    <section class="panel">
+        <div class="panel-header">
+            <h2>Top Topics</h2>
+        </div>
+        <div class="topics-list">
+            {% for topic in top_topics %}
+                <div class="topic-row">
+                    <span>{{ topic.label|capfirst }}</span>
+                    <div class="bar"><div style="width: {{ topic.value|floatformat:0 }}%"></div></div>
+                    <strong>{{ topic.value }}</strong>
+                </div>
+            {% empty %}
+                <div class="text-muted">Topics will appear when articles are available.</div>
+            {% endfor %}
+        </div>
+    </section>
+</div>
+
+<section class="panel mt-4">
+    <div class="panel-header">
+        <h2>Recent Activity</h2>
+    </div>
+    <div class="table-responsive">
+        <table class="table table-hover align-middle">
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Source</th>
+                    <th>Category</th>
+                    <th>Sentiment</th>
+                    <th>Popularity</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for article in trending %}
+                <tr>
+                    <td>{{ article.title }}</td>
+                    <td>{{ article.source }}</td>
+                    <td>{{ article.category }}</td>
+                    <td><span class="badge sentiment sentiment-{{ article.sentiment|lower }}">{{ article.sentiment }}</span></td>
+                    <td>{{ article.popularity_score }}</td>
+                </tr>
+                {% empty %}
+                <tr><td colspan="5" class="text-center text-muted">No articles yet.</td></tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</section>
+{% endblock %}

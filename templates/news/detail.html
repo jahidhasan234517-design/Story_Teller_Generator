@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ article.title }}{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <div>
+        <p class="eyebrow">Article detail</p>
+        <h1>{{ article.title }}</h1>
+    </div>
+</div>
+
+<div class="detail-card">
+    <div class="detail-meta">
+        <span>Source: {{ article.source }}</span>
+        <span>Author: {{ article.author|default:'Unknown' }}</span>
+        <span>Published: {{ article.published_at|date:'d M Y H:i' }}</span>
+    </div>
+
+    <div class="news-tags detail-tags">
+        <span class="tag">{{ article.category }}</span>
+        <span class="tag sentiment sentiment-{{ article.sentiment|lower }}">{{ article.sentiment }}</span>
+        <span class="tag">Popularity Score: {{ article.popularity_score }}</span>
+    </div>
+
+    <p>{{ article.description }}</p>
+
+    <div class="keywords-box">
+        <h4>Extracted keywords</h4>
+        <div class="keyword-list">
+            {% for keyword in keywords %}
+            <span class="tag">{{ keyword }}</span>
+            {% empty %}
+            <span class="text-muted">No keywords extracted.</span>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="detail-actions">
+        <a href="{{ article.url }}" target="_blank" rel="noopener noreferrer" class="btn btn-primary">Read Original Article</a>
+        <a href="{% url 'news_list' %}" class="btn btn-outline-secondary">Back to Feed</a>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block title %}Analytics | News Intelligence{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <div>
+        <p class="eyebrow">Media analytics</p>
+        <h1>Analytics</h1>
+    </div>
+</div>
+
+<div class="analytics-grid">
+    <div class="panel chart-panel">
+        <h3>Articles by Category</h3>
+        <canvas id="categoryChart"></canvas>
+    </div>
+    <div class="panel chart-panel">
+        <h3>Sentiment Distribution</h3>
+        <canvas id="sentimentChart"></canvas>
+    </div>
+    <div class="panel chart-panel wide-panel">
+        <h3>Articles Over Time</h3>
+        <canvas id="timelineChart"></canvas>
+    </div>
+    <div class="panel chart-panel">
+        <h3>Top Keywords</h3>
+        <canvas id="keywordsChart"></canvas>
+    </div>
+    <div class="panel chart-panel">
+        <h3>Source Distribution</h3>
+        <canvas id="sourceChart"></canvas>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{% static 'js/analytics.js' %}"></script>
+{% endblock %}

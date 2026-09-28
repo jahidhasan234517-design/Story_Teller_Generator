@@ -1,0 +1,85 @@
+{% extends 'base.html' %}
+
+{% block title %}Latest News{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <div>
+        <p class="eyebrow">News intelligence</p>
+        <h1>Latest News</h1>
+    </div>
+</div>
+
+<form class="filter-panel" method="get">
+    <div class="row g-3 align-items-end">
+        <div class="col-md-3">
+            <label>Search</label>
+            <input type="text" name="q" value="{{ query }}" class="form-control" placeholder="Keyword or phrase">
+        </div>
+        <div class="col-md-2">
+            <label>Category</label>
+            <select name="category" class="form-select">
+                <option value="">All</option>
+                {% for category in categories %}
+                <option value="{{ category }}" {% if category == selected_category %}selected{% endif %}>{{ category }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="col-md-2">
+            <label>Sentiment</label>
+            <select name="sentiment" class="form-select">
+                <option value="">All</option>
+                {% for sentiment in sentiments %}
+                <option value="{{ sentiment }}" {% if sentiment == selected_sentiment %}selected{% endif %}>{{ sentiment }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="col-md-2">
+            <label>Source</label>
+            <input type="text" name="source" value="{{ source }}" class="form-control" placeholder="Hacker News">
+        </div>
+        <div class="col-md-2">
+            <label>Date</label>
+            <select name="date" class="form-select">
+                <option value="">Any</option>
+                <option value="7" {% if date_filter == '7' %}selected{% endif %}>Last 7 days</option>
+                <option value="30" {% if date_filter == '30' %}selected{% endif %}>Last 30 days</option>
+                <option value="90" {% if date_filter == '90' %}selected{% endif %}>Last 90 days</option>
+            </select>
+        </div>
+        <div class="col-md-1">
+            <button type="submit" class="btn btn-primary w-100">Search</button>
+        </div>
+    </div>
+</form>
+
+<div class="news-grid mt-4">
+    {% for article in articles %}
+    <article class="news-card">
+        <div class="card-topline">
+            <span class="source-pill">{{ article.source }}</span>
+            <button class="bookmark-button" data-article-id="{{ article.id }}" aria-label="Bookmark article">
+                <i class="bi bi-bookmark"></i>
+            </button>
+        </div>
+        <h3><a href="{% url 'article_detail' article.id %}">{{ article.title }}</a></h3>
+        <div class="meta-row">
+            <span>By {{ article.author|default:'Unknown' }}</span>
+            <span>{{ article.published_at|date:'d M Y' }}</span>
+        </div>
+        <p>{{ article.description|truncatechars:180 }}</p>
+        <div class="news-tags">
+            <span class="tag">{{ article.category }}</span>
+            <span class="tag sentiment sentiment-{{ article.sentiment|lower }}">{{ article.sentiment }}</span>
+            <span class="tag">Score {{ article.popularity_score }}</span>
+        </div>
+        <div class="card-actions">
+            <a href="{{ article.url }}" target="_blank" rel="noopener noreferrer" class="btn btn-outline-primary btn-sm">Read Article</a>
+            <a href="{% url 'article_detail' article.id %}" class="btn btn-link btn-sm">Details</a>
+        </div>
+    </article>
+    {% empty %}
+    <div class="empty-state">No articles match your current filters.</div>
+    {% endfor %}
+</div>
+{% endblock %}

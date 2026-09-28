@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block title %}Bookmarks{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <div>
+        <p class="eyebrow">Saved articles</p>
+        <h1>My Bookmarks</h1>
+    </div>
+</div>
+
+<div class="bookmark-list">
+    {% for bookmark in bookmarks %}
+    <div class="bookmark-item">
+        <div>
+            <h4>{{ bookmark.article.title }}</h4>
+            <p>{{ bookmark.article.source }} • {{ bookmark.article.category }} • {{ bookmark.article.sentiment }}</p>
+        </div>
+        <div class="bookmark-actions">
+            <a href="{% url 'article_detail' bookmark.article.id %}" class="btn btn-sm btn-outline-primary">View</a>
+            <a href="{{ bookmark.article.url }}" target="_blank" rel="noopener noreferrer" class="btn btn-sm btn-primary">Open</a>
+        </div>
+    </div>
+    {% empty %}
+    <div class="empty-state">No bookmarks yet. Save an article from the news feed.</div>
+    {% endfor %}
+</div>
+{% endblock %}

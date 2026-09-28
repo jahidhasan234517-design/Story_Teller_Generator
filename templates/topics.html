@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block title %}Topic Intelligence{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <div>
+        <p class="eyebrow">Topic intelligence</p>
+        <h1>Top Topics</h1>
+    </div>
+</div>
+
+<div class="topics-list topic-page">
+    {% for topic in topics %}
+    <div class="topic-row">
+        <span>{{ topic.label|capfirst }}</span>
+        <div class="bar"><div style="width: {{ topic.value|floatformat:0 }}%"></div></div>
+        <strong>{{ topic.value }}</strong>
+    </div>
+    {% empty %}
+    <div class="empty-state">Topics will appear as articles are collected.</div>
+    {% endfor %}
+</div>
+{% endblock %}

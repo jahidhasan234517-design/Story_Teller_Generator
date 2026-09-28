@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block title %}Trending News{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <div>
+        <p class="eyebrow">Ranked stories</p>
+        <h1>Trending</h1>
+    </div>
+</div>
+
+<div class="list-group mt-3">
+    {% for item in trending %}
+    <div class="list-group-item trending-item">
+        <div class="d-flex justify-content-between align-items-center">
+            <div>
+                <strong>#{{ forloop.counter }}</strong>
+                <a href="{% url 'article_detail' item.id %}" class="ms-2">{{ item.title }}</a>
+            </div>
+            <span class="badge text-bg-primary">Dashboard Trending Score: {{ item.popularity_score|floatformat:1 }}</span>
+        </div>
+    </div>
+    {% empty %}
+    <div class="empty-state">No trending data is available yet.</div>
+    {% endfor %}
+</div>
+{% endblock %}
